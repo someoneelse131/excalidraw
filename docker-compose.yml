@@ -1,7 +1,8 @@
 services:
   excalidraw:
     build:
-      context: https://github.com/excalidraw/excalidraw.git
+      context: .
+      dockerfile: Dockerfile
       args:
         - VITE_APP_WS_SERVER_URL=wss://excalidraw-ws.kirby.rocks
         - VITE_APP_DISABLE_TRACKING=true
