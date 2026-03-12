@@ -1,0 +1,26 @@
+services:
+  excalidraw:
+    image: excalidraw/excalidraw:latest
+    container_name: excalidraw
+    restart: unless-stopped
+    ports:
+      - "${EXCALIDRAW_PORT:-41006}:80"
+    environment:
+      - VITE_APP_WS_SERVER_URL=wss://${EXCALIDRAW_DOMAIN:-excalidraw.kirby.rocks}
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:80"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  excalidraw-room:
+    image: excalidraw/excalidraw-room:latest
+    container_name: excalidraw-room
+    restart: unless-stopped
+    ports:
+      - "${EXCALIDRAW_COLLAB_PORT:-41007}:80"
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:80"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
