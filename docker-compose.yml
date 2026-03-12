@@ -1,12 +1,14 @@
 services:
   excalidraw:
-    image: excalidraw/excalidraw:latest
+    build:
+      context: https://github.com/excalidraw/excalidraw.git
+      args:
+        - VITE_APP_WS_SERVER_URL=wss://excalidraw-ws.kirby.rocks
+        - VITE_APP_DISABLE_TRACKING=true
     container_name: excalidraw
     restart: unless-stopped
     ports:
       - "${EXCALIDRAW_PORT:-41006}:80"
-    environment:
-      - VITE_APP_WS_SERVER_URL=wss://${EXCALIDRAW_DOMAIN:-excalidraw.kirby.rocks}
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:80"]
       interval: 30s
